@@ -40,7 +40,7 @@ image_hv = function(fam, gen, epi, tx = 1, destfolder = "./images"){
   pb <- txtProgressBar(min = 1,
                        max = length(cdg_html),
                        style = 3)
-  for(i in length(cdg_html)){
+  for(i in 1:length(cdg_html)){
     setTxtProgressBar(pb, i)
     nomes = unlist(strsplit(cdg_html[i], split = "&"))
     url1 = paste0(nomes[1:2], collapse = "&")
