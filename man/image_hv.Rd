@@ -4,7 +4,7 @@
 \alias{image_hv}
 \title{Download images form Herbário Virtual Reflora}
 \usage{
-image_hv(fam, gen, epi, tx = 1)
+image_hv(fam, gen, epi, tx = 1, destfolder = "./images")
 }
 \arguments{
 \item{fam}{A character string with the family name}

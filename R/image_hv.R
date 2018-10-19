@@ -18,7 +18,7 @@
 #' image_hv(fam,gen,epi)
 #' 
 #' @export
-image_hv = function(fam, gen, epi, tx = 1){
+image_hv = function(fam, gen, epi, tx = 1, destfolder = "./images"){
   url = "http://reflora.jbrj.gov.br/reflora/herbarioVirtual/ConsultaPublicoHVUC/BemVindoConsultaPublicaHVConsultar.do?modoConsulta=LISTAGEM&quantidadeResultado=1000&nomeCientifico=" 
 
   url_sp = paste0(url, fam,"+", gen,"+", epi)
@@ -33,6 +33,8 @@ image_hv = function(fam, gen, epi, tx = 1){
   cdg_html = grep(pattern = "width=", cdg_html, value=T)
   cdg_html
   
+  if(!dir.exists(destfolder)){dir.create(destfolder)}
+  
   h = 150
   w = 70
   pb <- txtProgressBar(min = 1,
@@ -43,6 +45,6 @@ image_hv = function(fam, gen, epi, tx = 1){
     nomes = unlist(strsplit(cdg_html[i], split = "&"))
     url1 = paste0(nomes[1:2], collapse = "&")
     url_image = paste(url1,"&", "width=", w*tx, "&", "height=", h*tx, sep = "")
-    download.file(url = url_image, destfile = paste(fam,gen,epi, "_",i,".jpg", sep = " "), mode = "wb", quiet = TRUE)
+    download.file(url = url_image, destfile = paste(destfolder,"/",fam, " ",gen," ",epi, "_",i,".jpg", sep = ""), mode = "wb", quiet = TRUE)
   }
 }
