@@ -4,14 +4,16 @@
 \alias{image_hv}
 \title{Download images form Herbário Virtual Reflora}
 \usage{
-image_hv(fam, gen, epi, tx = 1, destfolder = "./images")
+image_hv(scientific.name, tx = 1, destfolder = "images", municipality)
 }
 \arguments{
-\item{fam}{A character string with the family name}
+\item{scientific.name}{A character string with the scientific name.}
 
-\item{gen}{A character string with the genus name}
+\item{tx}{Multiplication rate of standard image size  (70 x 150 px).}
 
-\item{epi}{A character string with the specific epithet name}
+\item{destfolder}{A character string with the folder where the images will be saved}
+
+\item{epi}{A character string with the specific epithet name.}
 }
 \value{
 A rasterStack with the minimun, maximum, median, mean and standard
@@ -20,10 +22,7 @@ A rasterStack with the minimun, maximum, median, mean and standard
 Download images form Herbário Virtual Reflora
 }
 \examples{
-fam = "Melastomataceae"
-gen = "Tibouchina"
-epi = "clavata"
-image_hv(fam,gen,epi)
+image_hv("Prepusa montana")
 
 }
 \seealso{

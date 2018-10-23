@@ -1,50 +1,94 @@
 #' Download images form Herbário Virtual Reflora
 #'
 #'
-#' @param fam A character string with the family name
-#' @param gen A character string with the genus name
-#' @param epi A character string with the specific epithet name
+#' @param scientific.name A character string with the scientific name.
+#' @param tx Multiplication rate of standard image size  (70 x 150 px).
+#' @param destfolder A character string with the folder where the images will be saved
+#' @param epi A character string with the specific epithet name.
 #'
 #' @import dplyr
 #' @import httr
 #' @import xml2
 #' @import rvest
+#' @import textclean
 #' @seealso \link{'http://reflora.jbrj.gov.br/reflora/herbarioVirtual'}
 #' @return A rasterStack with the minimun, maximum, median, mean and standard
-#' @examples 
-#' fam = "Melastomataceae"
-#' gen = "Tibouchina"
-#' epi = "clavata"
-#' image_hv(fam,gen,epi)
-#' 
+#' @examples
+#' image_hv("Prepusa montana")
+#'
 #' @export
-image_hv = function(fam, gen, epi, tx = 1, destfolder = "./images"){
-  url = "http://reflora.jbrj.gov.br/reflora/herbarioVirtual/ConsultaPublicoHVUC/BemVindoConsultaPublicaHVConsultar.do?modoConsulta=LISTAGEM&quantidadeResultado=1000&nomeCientifico=" 
-
-  url_sp = paste0(url, fam,"+", gen,"+", epi)
+image_hv = function(scientific.name,
+                    tx = 1,
+                    destfolder = "images",
+                    municipality) {
+  url = "http://reflora.jbrj.gov.br/reflora/herbarioVirtual/ConsultaPublicoHVUC/BemVindoConsultaPublicaHVConsultar.do?modoConsulta=LISTAGEM&quantidadeResultado=1000"
+  
+  if (!is.null(scientific.name)) {
+    name = scientific.name %>% 
+      strsplit(" ") %>% 
+      unlist()
+    gen = name[1]
+    epi = name[2]
+    url_sp = paste0(url, "&nomeCientifico=", paste0(gen, "+", epi))
+    if(!is.null(municipality)){
+      mun  = municipality %>% 
+        replace_non_ascii() %>% 
+        strsplit(" ") %>% 
+        unlist() %>% 
+        paste(collapse = "+")
+      url_sp = paste0(url, "&nomeCientifico=", paste0(gen, "+", epi), "&municipio=", mun)
+    }
+  } else{
+    stop("Please provide search name")
+  }
   
   cdg_html <- url_sp %>%
     httr::GET() %>%
     httr::content('text', encoding = 'UTF-8') %>%
-    xml2::read_html() %>% 
-    html_nodes('img') %>% 
-    html_attr('src') 
+    xml2::read_html() %>%
+    html_nodes('img') %>%
+    html_attr('src')
   
-  cdg_html = grep(pattern = "width=", cdg_html, value=T)
+  cdg_html = grep(pattern = "width=", cdg_html, value = T)
   cdg_html
   
-  if(!dir.exists(destfolder)){dir.create(destfolder)}
+  if (!dir.exists(destfolder)) {
+    dir.create(destfolder)
+  } else{
+    warning(
+      "The folder you have chosen already exists. Be careful because you can overwrite the files contained in it."
+    )
+  }
   
-  h = 150
-  w = 70
   pb <- txtProgressBar(min = 1,
                        max = length(cdg_html),
                        style = 3)
-  for(i in 1:length(cdg_html)){
+  for (i in 1:length(cdg_html)) {
     setTxtProgressBar(pb, i)
-    nomes = unlist(strsplit(cdg_html[i], split = "&"))
+    #nomes = unlist(strsplit(cdg_html[i], split = "&"))
+    nomes = cdg_html[i] %>% 
+      strsplit(split = "&") %>% 
+      unlist()
+    
+    w = nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[2]
+    h = nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[4]
+    
     url1 = paste0(nomes[1:2], collapse = "&")
-    url_image = paste(url1,"&", "width=", w*tx, "&", "height=", h*tx, sep = "")
-    download.file(url = url_image, destfile = paste(destfolder,"/",fam, " ",gen," ",epi, "_",i,".jpg", sep = ""), mode = "wb", quiet = TRUE)
+    url_image = paste(url1, "&", "width=", w * tx, "&", "height=", h * tx, sep = "")
+    download.file(
+      url = url_image,
+      destfile = paste(
+        "./",
+        destfolder,
+        "/",
+        scientific.name,
+        "_",
+        i,
+        ".jpg",
+        sep = ""
+      ),
+      mode = "wb",
+      quiet = TRUE
+    )
   }
 }
