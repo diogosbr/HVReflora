@@ -20,7 +20,7 @@
 image_hv = function(scientific.name,
                     tx = 1,
                     destfolder = "images",
-                    municipality) {
+                    municipality = NULL) {
   url = "http://reflora.jbrj.gov.br/reflora/herbarioVirtual/ConsultaPublicoHVUC/BemVindoConsultaPublicaHVConsultar.do?modoConsulta=LISTAGEM&quantidadeResultado=1000"
   
   if (!is.null(scientific.name)) {

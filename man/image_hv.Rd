@@ -4,7 +4,8 @@
 \alias{image_hv}
 \title{Download images form Herbário Virtual Reflora}
 \usage{
-image_hv(scientific.name, tx = 1, destfolder = "images", municipality)
+image_hv(scientific.name, tx = 1, destfolder = "images",
+  municipality = NULL)
 }
 \arguments{
 \item{scientific.name}{A character string with the scientific name.}
