@@ -14,7 +14,7 @@ image_hv(scientific.name, tx = 1, destfolder = "images",
 
 \item{destfolder}{A character string with the folder where the images will be saved}
 
-\item{epi}{A character string with the specific epithet name.}
+\item{municipality}{A character string with the municipality name. If is NULL (default) download images of all available municipalities.}
 }
 \value{
 A rasterStack with the minimun, maximum, median, mean and standard
@@ -27,5 +27,5 @@ image_hv("Prepusa montana")
 
 }
 \seealso{
-\link{'http://reflora.jbrj.gov.br/reflora/herbarioVirtual'}
+(<http://reflora.jbrj.gov.br/reflora/herbarioVirtual/ConsultaPublicoHVUC/ConsultaPublicoHVUC.do>)
 }
