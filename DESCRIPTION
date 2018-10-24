@@ -4,10 +4,11 @@ Version: 0.1.0
 Authors@R: person('Diogo', "Rocha", email = 'diogosbr@gmail.com', role = c('aut', 'cre'))
 Description: This package Downloads images from the Herbario Virtual of the Reflora project.
 Depends: R (>= 3.3.1)
-License: None
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: dplyr,
+Imports: 
+	dplyr,
     httr,
     rvest,
     textclean,
