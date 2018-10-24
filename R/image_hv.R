@@ -11,6 +11,9 @@
 #' @import xml2
 #' @import rvest
 #' @import textclean
+#' @importFrom utils download.file 
+#' @importFrom utils setTxtProgressBar
+#' @importFrom utils txtProgressBar
 #' @seealso \link{'http://reflora.jbrj.gov.br/reflora/herbarioVirtual'}
 #' @return A rasterStack with the minimun, maximum, median, mean and standard
 #' @examples
