@@ -1,9 +1,16 @@
 Package: HVReflora
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("Diogo", "Rocha", email = "diogosbr@gmail.com", role = c("aut", "cre"))
-Depends: R (>= 3.5.1)
+Title: Downloads images from the Herbario Virtual of the Reflora project.
+Version: 0.1.0
+Authors@R: person('Diogo', "Rocha", email = 'diogosbr@gmail.com', role = c('aut', 'cre'))
+Description: This package Downloads images from the Herbario Virtual of the Reflora project.
+Depends: R (>= 3.3.1)
 License: None
 Encoding: UTF-8
 LazyData: true
+Imports: dplyr,
+    httr,
+    rvest,
+    textclean,
+    xml2
+BugReports: https://github.com/diogosbr/HVReflora/issues
 RoxygenNote: 6.1.0

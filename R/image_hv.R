@@ -49,6 +49,8 @@ image_hv = function(scientific.name,
     html_nodes('img') %>%
     html_attr('src')
   
+  if(length(cdg_html)==86){stop("Please check if the taxon name is correct.")}
+    
   cdg_html = grep(pattern = "width=", cdg_html, value = T)
   cdg_html
   
@@ -70,8 +72,8 @@ image_hv = function(scientific.name,
       strsplit(split = "&") %>% 
       unlist()
     
-    w = nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[2]
-    h = nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[4]
+    w = as.numeric(nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[2])
+    h = as.numeric(nomes[3:4] %>% strsplit(split="=") %>% unlist() %>% .[4])
     
     url1 = paste0(nomes[1:2], collapse = "&")
     url_image = paste(url1, "&", "width=", w * tx, "&", "height=", h * tx, sep = "")
